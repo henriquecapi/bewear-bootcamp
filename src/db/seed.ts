@@ -592,19 +592,25 @@ async function main() {
       for (const variantData of productData.variants) {
         const variantId = crypto.randomUUID();
         const productKey = productData.name as keyof typeof productImages;
-        const variantImages =
+        const variantImages: string[] =
           productImages[productKey]?.[
             variantData.color as keyof (typeof productImages)[typeof productKey]
           ] || [];
 
         console.log(`  🎨 Criando variante: ${variantData.color}`);
 
+        if (variantImages.length === 0) {
+          throw new Error(
+            `Nenhuma imagem encontrada para o produto: "${productData.name}", variante: "${variantData.color}"`,
+          );
+        }
+
         await db.insert(productVariantTable).values({
           id: variantId,
           name: variantData.color,
           productId: productId,
           color: variantData.color,
-          imageUrl: variantImages,
+          imageUrl: variantImages[0],
           priceInCents: variantData.price,
           slug: generateSlug(`${productData.name}-${variantData.color}`),
         });
