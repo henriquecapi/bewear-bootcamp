@@ -4,6 +4,7 @@ import Image from "next/image";
 import CategorySelector from "@/components/common/category-selector";
 import Footer from "@/components/common/footer";
 import { Header } from "@/components/common/header";
+import Mark from "@/components/common/mark-list";
 import ProductList from "@/components/common/product-list";
 import { db } from "@/db";
 import { productTable } from "@/db/schema";
@@ -37,6 +38,9 @@ const Home = async () => {
             sizes="100vw"
           />
         </div>
+
+        <p className="space-y-6 px-5 font-semibold">Marcas Parceiras</p>
+        <Mark />
 
         <ProductList products={products} title="Mais vendicdos" />
 
