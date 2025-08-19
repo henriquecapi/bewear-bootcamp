@@ -14,7 +14,7 @@ const CategorySelector = ({ categories }: CategorySelectorProps) => {
           <Button
             key={category.id}
             variant="ghost"
-            className="rounded=full bg-white"
+            className="rounded=full text-l bg-white font-semibold"
           >
             {category.name}
           </Button>

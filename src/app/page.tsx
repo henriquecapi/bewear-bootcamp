@@ -1,10 +1,10 @@
 import { desc } from "drizzle-orm";
 import Image from "next/image";
 
+import PartnerBrands from "@/components/common/brands-list";
 import CategorySelector from "@/components/common/category-selector";
 import Footer from "@/components/common/footer";
 import { Header } from "@/components/common/header";
-import Mark from "@/components/common/mark-list";
 import ProductList from "@/components/common/product-list";
 import { db } from "@/db";
 import { productTable } from "@/db/schema";
@@ -39,8 +39,7 @@ const Home = async () => {
           />
         </div>
 
-        <p className="space-y-6 px-5 font-semibold">Marcas Parceiras</p>
-        <Mark />
+        <PartnerBrands />
 
         <ProductList products={products} title="Mais vendicdos" />
 
