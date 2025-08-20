@@ -41,7 +41,7 @@ const Home = async () => {
 
         <PartnerBrands />
 
-        <ProductList products={products} title="Mais vendicdos" />
+        <ProductList products={products} title="Mais vendidos" />
 
         <div className="px-5">
           <CategorySelector categories={categories} />

@@ -22,7 +22,10 @@ const ProductItem = ({ product, textContainerClassName }: ProductItemProps) => {
     .split(",")[0]; // Pega a primeira URL se houver várias
 
   return (
-    <Link href="/" className="flex flex-col gap-4">
+    <Link
+      href={`/product-variant/${firstVariant.slug}`}
+      className="flex flex-col gap-4"
+    >
       <Image
         src={imageUrl}
         alt={firstVariant.name}
