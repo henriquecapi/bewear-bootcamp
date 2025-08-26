@@ -10,7 +10,7 @@ import { db } from "@/db";
 import { productTable, productVariantTable } from "@/db/schema";
 import { formatCentsToBRL } from "@/helpers/money";
 
-import QuantitySelector from "./components/quantity-selector";
+import ProductActions from "./components/product-actions";
 import VariantSelector from "./components/variant-selector";
 
 interface ProductVariantPageProps {
@@ -36,27 +36,19 @@ const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
     where: eq(productTable.categoryId, productVariant.product.categoryId),
     with: { variants: true },
   });
-  // Corrige o formato da URL que pode vir do banco de dados como um array stringificado. Ex: '{"url"}'
-  const imageUrl = productVariant.imageUrl
-    .replace(/^{|}$/g, "") // Remove chaves
-    .replace(/"/g, "") // Remove aspas
-    .split(",")[0]; // Pega a primeira URL se houver várias
+
   return (
     <>
       <Header />
       <div className="flex flex-col space-y-6">
         {/* Imagem */}
-
         <Image
-          src={imageUrl}
+          src={productVariant.imageUrl}
           alt={productVariant.name}
           sizes="100vw"
           height={0}
           width={0}
           className="h-auto w-full object-cover"
-          //fill
-          //className="object-contain"
-          //className="object-cover"
         />
         <VariantSelector
           selectedVariantSlug={productVariant.slug}
@@ -74,19 +66,7 @@ const ProductVariantPage = async ({ params }: ProductVariantPageProps) => {
           </h3>
         </div>
 
-        <div className="px-5">
-          {/* QUANTIDADE */}
-          <QuantitySelector />
-        </div>
-
-        <div className="flex flex-col space-y-4 px-5">
-          <Button className="rounded-full" size="lg" variant="outline">
-            Adcionar à sacola
-          </Button>
-          <Button className="rounded-full" size="lg">
-            Comprar agora
-          </Button>
-        </div>
+        <ProductActions productVariantId={productVariant.id} />
 
         <div className="px-5">
           <p className="text-shadow-amber-600">
