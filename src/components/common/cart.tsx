@@ -14,9 +14,14 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
+import { CartItem } from "./cart-item";
 
 export const Cart = () => {
-  const { data: cart, isPending: cartIsLoading, error } = useQuery({
+  const {
+    data: cart,
+    isPending: cartIsLoading,
+    error,
+  } = useQuery({
     queryKey: ["cart"],
     queryFn: () => getCart(),
     retry: false,
@@ -33,49 +38,40 @@ export const Cart = () => {
         <SheetHeader>
           <SheetTitle>Carrinho</SheetTitle>
         </SheetHeader>
-        
+
         {cartIsLoading && (
           <div className="p-4 text-center">
             <p>Carregando...</p>
           </div>
         )}
-        
+
         {error && (
           <div className="p-4 text-center">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-muted-foreground text-sm">
               Faça login para visualizar seu carrinho
             </p>
           </div>
         )}
-        
+
         {cart && !cartIsLoading && !error && (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 space-y-4 px-5">
             {cart.items.length === 0 ? (
               <div className="p-4 text-center">
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   Seu carrinho está vazio
                 </p>
               </div>
             ) : (
               cart.items.map((item) => (
-                <div key={item.id} className="flex gap-4 p-4 border-b">
-                  <Image
-                    src={item.productVariant.imageUrl}
-                    alt={item.productVariant.name}
-                    width={80}
-                    height={80}
-                    className="rounded-md object-cover"
-                  />
-                  <div className="flex-1">
-                    <h3 className="font-medium">{item.productVariant.name}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Cor: {item.productVariant.color}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      Quantidade: {item.quantity}
-                    </p>
-                  </div>
-                </div>
+                <CartItem
+                  key={item.id}
+                  id={item.id}
+                  productName={item.productVariant.product.name}
+                  productVariantName={item.productVariant.name}
+                  productVariantImageUrl={item.productVariant.imageUrl}
+                  productVariantPriceInCents={item.productVariant.priceInCents}
+                  quantity={item.quantity}
+                />
               ))
             )}
           </div>
