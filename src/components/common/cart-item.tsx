@@ -39,7 +39,7 @@ export const CartItem = ({
           </p>
           <div className="flex w-[100px] items-center justify-between rounded-lg border">
             <Button
-              className="h-4 w-4"
+              className="h-5 w-7"
               size="icon"
               variant="ghost"
               onClick={() => {}}
@@ -48,7 +48,7 @@ export const CartItem = ({
             </Button>
             <p className="text-xs font-medium">{quantity}</p>
             <Button
-              className="h-4 w-4"
+              className="h-5 w-7"
               size="icon"
               variant="ghost"
               onClick={() => {}}
@@ -58,7 +58,7 @@ export const CartItem = ({
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-end justify-center gap-1">
+      <div className="flex flex-col items-end justify-center gap-2">
         <Button variant="outline" size="icon">
           <TrashIcon />
         </Button>
