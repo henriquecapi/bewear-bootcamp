@@ -18,13 +18,10 @@ import {
   SheetTrigger,
 } from "../ui/sheet";
 import CartItem from "./cart-item";
+import Footer from "./footer";
 
 export const Cart = () => {
-  const {
-    data: cart,
-    isPending: cartIsLoading,
-    error,
-  } = useQuery({
+  const { data: cart } = useQuery({
     queryKey: ["cart"],
     queryFn: () => getCart(),
     retry: false,
@@ -79,6 +76,7 @@ export const Cart = () => {
                 <p>{formatCentsToBRL(cart?.totalPriceInCents ?? 0)}</p>
               </div>
               <Button className="rounded-full"> Finalizar compra</Button>
+              <br /> <br />
             </div>
           )}
         </div>
