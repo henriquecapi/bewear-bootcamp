@@ -14,26 +14,26 @@ export const removeProductFromCart = async (
   data: z.infer<typeof removeProductFromCartSchema>,
 ) => {
   removeProductFromCartSchema.parse(data);
+  // usuario ta autenticado
   const session = await auth.api.getSession({
     headers: await headers(),
   });
   if (!session?.user) {
     throw new Error("Unauthorized");
   } // verifico se usuário está logado
+  // Esse item dentro do carrinho ele existe?
   const cartItem = await db.query.cartItemTable.findFirst({
     where: (cartItem, { eq }) => eq(cartItem.id, data.cartItemId),
     with: {
       cart: true,
     },
-  });
-  // se o carrinho não for do usuario logado não tem permissão
-  const cartDoesNotBelongToUser = cartItem?.cart.userId != session.user.id;
+  }); // se o carrinho não for do usuario logado não tem permissão
+  if (!cartItem) {
+    throw new Error("Cart item not found in cart");
+  }
+  const cartDoesNotBelongToUser = cartItem.cart.userId != session.user.id;
   if (cartDoesNotBelongToUser) {
     throw new Error("Unauthorized");
-  }
-  if (!cartItem) {
-    // Vou estar tentando deletar um produto que não esteja no carrinho
-    throw new Error("Cart item not found in cart");
-  } // se passar é porque existe cartItem
+  } // Esse carrinho pertence ao usuario logado?
   await db.delete(cartItemTable).where(eq(cartItemTable.id, cartItem.id)); //deleta
 };
